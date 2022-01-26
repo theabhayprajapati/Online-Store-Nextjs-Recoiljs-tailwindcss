@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { atom, useRecoilState } from "recoil";
 
@@ -36,15 +37,22 @@ const Products = () => {
             {
                 //@ts-ignore
                 storeitems.map(({ title, description, price, id, image }, index) => {
-                    return <div className="px-3">
-                        <div key={index}>
-                            <h1>{title}</h1>
-                            <img src={image} alt='loading' className='h-44 object-contain' />
-                            <h1>
-                                ₹ {''}{price}
-                            </h1>
+                    return <div className="px-3 grid grid-cols-3">
+
+                        <div key={index} className='hover:border-2 w-96'>
+                            <Link href={`./Product/${id}`}>
+                                <div>
+                                    <h1>{title}</h1>
+                                    <img src={image} alt='loading' className='h-44 object-contain' />
+                                    <h1>
+                                        ₹ {''}{price}
+                                    </h1>
+                                </div>
+
+                            </Link>
+
                             <div className='flex'>
-                                <button onClick={() => { setSelectedItems({ ...selectedItems, [index]: (selectedItems[id] || 0) + 1 }) }} className='bg-blue-300 hover:border px-3 hover:bg-blue-500'>Add to basket  {selectedItems[id]}</button>
+                                <button onClick={() => { setSelectedItems({ ...selectedItems, [id]: (selectedItems[id] || 0) + 1 }) }} className='bg-blue-300 hover:border px-3 hover:bg-blue-500'>Add to basket  {selectedItems[id]}</button>
                                 <button className='bg-yellow-300 hover:border px-3 hover:bg-yellow-500'>Buy now</button>
                                 {
                                     selectedItems[id] ? <div>
@@ -63,6 +71,7 @@ const Products = () => {
                                 }
                             </div>
                         </div>
+
                     </div>
                 })
             }
